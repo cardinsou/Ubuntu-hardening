@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 usage() {
-	/usr/bin/echo "Usage: hardenize.sh [-u <username>]";
+	echo "Usage: hardenize.sh [-u <username>]";
 	exit 1;
 }
 
