@@ -8,7 +8,7 @@ usage() {
 verifyUserExist() {
 	if id -u "$username" &> /dev/null
 	then
-    	echo "[-] Error - User already exist";
+    		echo "[-] Error - User already exist";
     	exit 1;
     fi;
 }
