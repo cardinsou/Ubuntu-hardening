@@ -45,7 +45,7 @@ Script automated the following configurations:
 
   Configured with libpam-google-authenticator. After configuration user must insert password and OTP code to login. OTP code can be retrieved from "Google authenticator" mobile app.
 
-- **Disable root user login**
+- **Disable root login**
  
 
 ## create_user.sh
@@ -59,7 +59,7 @@ create_user.sh -u <username>
 The script must be executed with administrative privileges, so if you are not root run it with sudo command.
 
 Script automate user creation after hardening operations, so it:
-- create user if not exists
+- Create user if not exists
 - Set password that match the enforced password policies
 - Configure OTP
 - Set that the user must change password at next logon
