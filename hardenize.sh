@@ -82,10 +82,10 @@ createUser() {
 	then
     		echo "[+] User already exist";
     		echo "[+] Changing password for user $username...";
-    else
-    	/usr/sbin/useradd -m -s /bin/bash $username;
-    	echo "[+] Setting password for user $username...";
-    fi
+    	else
+    		/usr/sbin/useradd -m -s /bin/bash $username;
+    		echo "[+] Setting password for user $username...";
+    	fi
 	password=`/usr/bin/tr -dc A-Za-z0-9 </dev/urandom | /usr/bin/head -c 14`;
 	echo -en "$password\n$password\n" | /usr/bin/passwd "$username" &> /dev/null;
 	echo "[+] Adding user $username to sudo group ...";
@@ -127,12 +127,6 @@ printInfo() {
 	echo "	* Insert password: $password";
 	echo "	* Insert OTP token from 'Google Autheticator' app";
 	echo "	* Have fun";
-	echo "";
-	echo "Remember that new password must be 12 characters lenght and contains at least 3 of the following:";
-	echo "	* Uppercase";
-	echo "	* Lowercase";
-	echo "	* Number";
-	echo "	* Symbol";
 	echo "";	
 }
 
