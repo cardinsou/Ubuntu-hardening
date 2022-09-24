@@ -1,1 +1,1 @@
-# Ubuntu-22.04-hardening
+# Ubuntu 22.04 hardening
