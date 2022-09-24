@@ -1,6 +1,19 @@
 # Ubuntu 22.04 hardening
 
-This script are made to automatically configure and hardenize Ubuntu 22.04 VPS. 
+This script are made to automatically configure and hardenize Ubuntu 22.04 fresh installation.
+
+**IMPORTANT**
+
+Before executing the script you must verify that your mobile phone timezone match with the machine timezone. You can use the following command to verify the timezone:
+
+```
+timedatectl
+```
+And the following to set new timezone:
+
+```
+timedatectl set-timezone <timezone>
+```
 
 ## hardenize.sh
 
@@ -17,7 +30,7 @@ Script automated the following configurations:
 
 - **Setup automatic upgrade**
   
-  COnfiugured with unattended-upgrade package. Upgrade will be at 6:00 AM and the server reboot automatically at 8:00 AM if no user are connected.
+  Confiugured with unattended-upgrade package. Upgrade will be at 6:00 AM and the server reboot automatically at 8:00 AM if no user are connected.
   
 - **Setup firewall**
 
@@ -43,7 +56,7 @@ Script automated the following configurations:
 
 - **Enable SSH OTP**
 
-  Configured with libpam-google-authenticator. After configuration user must insert password and OTP code to login. OTP code can be retrieved from "Google authenticator" mobile app.
+  Configured with libpam-google-authenticator. After configuration user must insert password and OTP code to login on SSH. OTP code can be retrieved from "Google authenticator" mobile app. OTP codes are calculated based on timestamp, so if you mobile phone timezone doesn't match with server timezone you can't login.
 
 - **Disable root login**
  
@@ -63,3 +76,21 @@ Script automate user creation after hardening operations, so it:
 - Set password that match the enforced password policies
 - Configure OTP
 - Set that the user must change password at next logon
+
+## Troubleshooting and modification
+
+- **I need to unlock inbound connection on other port**
+
+    ```
+    sudo ufw allow <port>
+    ```
+    
+    For other config you can read [this](https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-with-ufw-on-ubuntu-22-04) tutorial
+    
+- **OTP code doesn't work**
+
+    Verify that date and time on your mobile phone and server are aligned. Google OTP pam library is configured to accept three code, the code generated in the time period, one in the past and one in the future. So you can have only one minute skew between the mobile and the server.
+    
+    
+
+
