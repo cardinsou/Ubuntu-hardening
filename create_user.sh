@@ -23,23 +23,23 @@ checkAdmin() {
 
 createPwd() {
 	echo "[+] Generating password ...";
-	password=`/usr/bin/tr -dc A-Za-z0-9 </dev/urandom | /usr/bin/head -c 12`;
+	password=`tr -dc A-Za-z0-9 </dev/urandom | head -c 12`;
 }
 
 createUser() {
-	echo "[+] Creating user ...";
-	/usr/sbin/useradd -m -s /bin/bash $username;
-	/usr/bin/echo -en "$password\n$password\n" | /usr/bin/passwd "$username" &> /dev/null;
+	echo "[+] Creating user $username...";
+	useradd -m -s /bin/bash $username;
+	echo -en "$password\n$password\n" | passwd "$username" &> /dev/null;
 }
 
 setOtp() {
-	echo "[+] Add Google OTP to user ..."
-	/usr/bin/su - $username -c "/usr/bin/google-authenticator -t -d -f -r 3 -R 30 -w 3 -C -q";
-	otp_code=`/usr/bin/head -1 /home/$username/.google_authenticator`;
+	echo "[+] Add Google OTP to user $username..."
+	su - $username -c "google-authenticator -t -d -f -r 3 -R 30 -w 3 -C -q";
+	otp_code=`head -1 /home/$username/.google_authenticator`;
 }
 
 changePwd() {
-	/usr/bin/chage -d0 $username;
+	chage -d0 $username;
 }
 
 printInfo() {
@@ -47,7 +47,7 @@ printInfo() {
 	echo "";
 	echo "Username : $username";
 	echo "Password : $password";
-	echo "OTP Code : $otp_code";
+	echo "OTP initialization code : $otp_code";
 	echo "";
 	echo "User must change password at next logon";
 	echo "";	
