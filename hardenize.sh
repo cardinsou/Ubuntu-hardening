@@ -77,7 +77,7 @@ enforcePasswordPolicy() {
 }
 
 createUser() {
-	echo "[+] Creating user $username ...";
+	echo "[+] Creating user $username...";
 	if id -u "$username" &> /dev/null
 	then
     		echo "[+] User already exist";
@@ -88,13 +88,13 @@ createUser() {
     	fi
 	password=`tr -dc A-Za-z0-9 </dev/urandom | head -c 14`;
 	echo -en "$password\n$password\n" | passwd "$username" &> /dev/null;
-	echo "[+] Adding user $username to sudo group ...";
+	echo "[+] Adding user $username to sudo group...";
 	checkPackage "sudo";
 	usermod -aG sudo $username;
 }
 
 configureOTP() {
-	echo "[+] Configuring Google OTP ...";
+	echo "[+] Configuring Google OTP...";
 	checkPackage "libpam-google-authenticator";
 	checkPackage "openssh-server";
 	cp /etc/pam.d/sshd /etc/pam.d/sshd.bck;
@@ -102,9 +102,25 @@ configureOTP() {
 	cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bck;
 	sed -i 's/KbdInteractiveAuthentication no/KbdInteractiveAuthentication yes/g' /etc/ssh/sshd_config;
 	echo "AuthenticationMethods keyboard-interactive" >> /etc/ssh/sshd_config;	
-	echo "[+] Configuring Google OTP for user $username ...";
+	echo "[+] Configuring Google OTP for user $username...";
 	su - $username -c "google-authenticator -t -d -f -r 3 -R 30 -w 3 -C -q";
 	otp_code=`head -1 /home/$username/.google_authenticator`;
+}
+
+remountProc() {
+	echo "[+] Mounting /proc with user restriction...";
+	cp /etc/fstab /etc/fstab.bck
+	echo "" >> /etc/fstab
+	echo "#Mount /proc with hidepid=2 parameter, so users cannot see other users processes" >> /etc/fstab
+	echo "proc    /proc    proc    defaults,nosuid,nodev,noexec,relatime,hidepid=2     0     0" >> /etc/fstab
+}
+
+addTimestampToHistory() {
+	echo "[+] Adding timestamp to bash history...";
+	cp /etc/profile /etc/profile.bck
+	echo "" >> /etc/profile
+	echo "#Add timestamp to command in bash history" >> /etc/profile
+	echo "export HISTTIMEFORMAT='%F %T '" >> /etc/profile
 }
 
 disableRootUser() {
@@ -143,6 +159,8 @@ do
 		   enforcePasswordPolicy
 		   createUser
 		   configureOTP
+		   remountProc
+		   addTimestampToHistory
 		   disableRootUser
 		   printInfo
 		   exit 0;;
