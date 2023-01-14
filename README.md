@@ -58,6 +58,14 @@ Script automates the following configurations:
 
   Configured with libpam-google-authenticator. After the configuration, the user must insert the password and the OTP code in order to login on SSH. OTP code can be retrieved from "Google authenticator" mobile app. OTP codes are calculated based on timestamp, so if your mobile phone timezone doesn't match with server timezone you can't login.
 
+- **Remount /proc filesystem**
+
+  If the system is multiuser, every user can see only his own processes.
+
+- **Add timestamp to history**
+
+  Every command in history will be showed with the execution timestamp
+
 - **Disable root login**
  
 
