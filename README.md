@@ -1,6 +1,6 @@
 # Ubuntu hardening
 
-These scripts are made to automatically configure and hardenize Ubuntu fresh installation. Tested on Ubuntu 22.04.
+These scripts are made to automatically configure and hardenize Ubuntu fresh installation. Tested on Ubuntu 22.04 and 22.10.
 
 **IMPORTANT**
 
